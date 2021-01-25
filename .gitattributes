@@ -1,2 +1,52 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+import serial
+import matplotlib.pyplot as plt
+import time
+import statistics as stats
+
+path = 'C:/Users/JOHN FABIO DUQUE/Desktop/ARCHIVO/dato1.txt'
+
+ser = serial.serial_for_url('COM5', 115200, timeout=None)
+
+
+x = []
+y = []
+z = []
+
+time.sleep(3)
+inicio = time.time()
+
+print(inicio)
+while(time.time()<inicio+5):
+
+    f = open(path,'a')
+
+    read = ser.readline().decode().split('\t')
+    dato = ';'.join(read)
+
+    if len(read)==3:
+
+        x.append(float(read[0]))
+        y.append(float(read[1]))
+        z.append(float(read[2]))
+
+        plt.plot(x)
+        plt.plot(y)
+        plt.plot(z)
+
+        f.write(str(dato))
+
+    f.close()
+
+
+
+
+print("promedio x: " + str(stats.mean(x)))
+print("promedio y: " + str(stats.mean(y)))
+print("promedio z: " + str(stats.mean(z)))
+
+
+print("desviación estándar x: " + str(stats.pstdev(x)))
+print("desviación estándar y: " + str(stats.pstdev(y)))
+print("desviación estándar z: " + str(stats.pstdev(z)))
